@@ -147,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               FlatButton(
                   onPressed: () {
-                    SessionUtils.instance.setSessionId('caa80457276543db8b81a0e3e6140021');
+                    SessionUtils.instance.setSessionId('eb158f955c6a4c45849affa468c95edf');
                     GlobalDataManager.currentProgramId = 17649;
                   },
                   color: LmColors.theme_color,

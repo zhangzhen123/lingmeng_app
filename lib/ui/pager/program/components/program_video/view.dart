@@ -2,7 +2,9 @@ import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lmlive/ui/pager/program/action.dart';
 import 'package:lmlive/ui/widget/image.dart';
+import 'package:lmlive/ui/widget/video_player.dart';
 
 import 'action.dart';
 import 'state.dart';
@@ -22,7 +24,7 @@ Widget buildView(ProgramVideoState state, Dispatch dispatch, ViewService viewSer
   });
 
   ///后续自定义状态控件用
-  Widget buildStatusWidget(
+  Widget _buildStatusWidget(
     BuildContext context,
     IjkMediaController controller,
     IjkStatus status,
@@ -64,31 +66,36 @@ Widget buildView(ProgramVideoState state, Dispatch dispatch, ViewService viewSer
     return Container();
   }
 
-  return ClipRRect(
-    borderRadius: BorderRadius.all(Radius.circular(8)),
-    child: Stack(
-      children: <Widget>[
-        IjkPlayer(
-          mediaController: state.ijkController,
-          controllerWidgetBuilder: _buildControllerWidget,
-          textureBuilder: _textureBuilder,
-          statusWidgetBuilder: buildStatusWidget,
-        ),
-        StreamBuilder<IjkStatus>(
-            initialData: state.ijkController.ijkStatus,
-            stream: state.ijkController.ijkStatusStream,
-            builder: (BuildContext context, snapshot) {
-              debugPrint("ProgramVideoState 自定义的StreamBuilder ijkStatus=${snapshot}");
-              return Container();
-            }),
-        StreamBuilder<int>(
+  return GestureDetector(
+    onTap: () {
+      dispatch(ProgramActionCreator.onItemClickAction(state.video));
+    },
+    child: ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      child: Stack(
+        children: <Widget>[
+          IjkPlayer(
+            mediaController: state.ijkController,
+            controllerWidgetBuilder: _buildControllerWidget,
+            textureBuilder: _textureBuilder,
+            statusWidgetBuilder: _buildStatusWidget,
+          ),
+          StreamBuilder<IjkStatus>(
+              initialData: state.ijkController.ijkStatus,
+              stream: state.ijkController.ijkStatusStream,
+              builder: (BuildContext context, snapshot) {
+                debugPrint("ProgramVideoState 自定义的StreamBuilder ijkStatus=${snapshot}");
+                return Container();
+              }),
+          StreamBuilder<int>(
 //            initialData: 0,
-            stream: state.ijkController.ijkErrorStream,
-            builder: (BuildContext context, snapshot) {
-              debugPrint("ProgramVideoState 自定义的StreamBuilder ijkErrorStream=$snapshot");
-              return Container();
-            }),
-      ],
+              stream: state.ijkController.ijkErrorStream,
+              builder: (BuildContext context, snapshot) {
+                debugPrint("ProgramVideoState 自定义的StreamBuilder ijkErrorStream=$snapshot");
+                return Container();
+              }),
+        ],
+      ),
     ),
   );
 }
@@ -105,86 +112,4 @@ Widget _buildControllerWidget(IjkMediaController controller) {
 Widget _textureBuilder(BuildContext context, IjkMediaController controller, VideoInfo videoInfo) {
   debugPrint('VideoInfo=$videoInfo');
   return DefaultIJKPlayerWrapper(controller: controller, info: videoInfo);
-}
-
-/// Default IJKPlayer Wrapper
-///
-/// This widget solves the aspect ratio problem in video direction.
-class DefaultIJKPlayerWrapper extends StatelessWidget {
-  final IjkMediaController controller;
-  final VideoInfo info;
-
-  const DefaultIJKPlayerWrapper({
-    Key key,
-    this.controller,
-    this.info,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var id = controller.textureId;
-    double ratio = info?.ratio ?? 1280 / 720;
-    return Container(
-      width: ScreenUtil.screenWidth,
-      height: double.infinity,
-//      decoration: BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(6.7)),
-      child: FittedBox(
-        child: Container(
-          width: ScreenUtil.screenWidth,
-          height: ScreenUtil.screenWidth / ratio,
-          child: Texture(
-            textureId: id,
-          ),
-        ),
-        fit: BoxFit.cover,
-      ),
-    );
-//    double ratio = info?.ratio ?? 1280 / 720;
-//
-//    var id = controller.textureId;
-//
-//    if (id == null) {
-//      return AspectRatio(
-//        aspectRatio: ratio,
-//        child: Container(
-//          color: Colors.black,
-//        ),
-//      );
-//    }
-//
-//    Widget w = Container(
-//      color: Colors.black,
-//      child: Texture(
-//        textureId: id,
-//      ),
-//    );
-//
-//    if (!controller.autoRotate) {
-//      return w;
-//    }
-//
-//    int degree = info?.degree ?? 0;
-//
-//    if (ratio == 0) {
-//      ratio = 1280 / 720;
-//    }
-//
-//    w = AspectRatio(
-//      aspectRatio: ratio,
-//      child: w,
-//    );
-//
-//    if (degree != 0) {
-//      w = RotatedBox(
-//        quarterTurns: degree ~/ 90,
-//        child: w,
-//      );
-//    }
-//
-//    return Container(
-//      child: w,
-//      alignment: Alignment.center,
-//      color: Colors.black,
-//    );
-  }
 }

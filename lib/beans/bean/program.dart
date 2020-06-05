@@ -123,14 +123,18 @@ class PlayInfoBean {
   String streamKey;
   String type;
   String rtmp;
+  String flv;
+  String hls;
 
-  PlayInfoBean({this.domain, this.streamKey, this.type, this.rtmp});
+  PlayInfoBean({this.domain, this.streamKey, this.type, this.rtmp, this.flv, this.hls});
 
   PlayInfoBean.fromJson(Map<String, dynamic> json) {
     this.domain = json['domain'];
     this.streamKey = json['streamKey'];
     this.type = json['type'];
     this.rtmp = json['rtmp'];
+    this.flv = json['flv'];
+    this.hls = json['hls'];
   }
 
   Map<String, dynamic> toJson() {
@@ -139,11 +143,13 @@ class PlayInfoBean {
     data['streamKey'] = this.streamKey;
     data['type'] = this.type;
     data['rtmp'] = this.rtmp;
+    data['flv'] = this.flv;
+    data['hls'] = this.hls;
     return data;
   }
 
   @override
   String toString() {
-    return 'PlayInfoBean{domain: $domain, streamKey: $streamKey, type: $type, rtmp: $rtmp}';
+    return 'PlayInfoBean{domain: $domain, streamKey: $streamKey, type: $type, rtmp: $rtmp, flv: $flv, hls: $hls}';
   }
 }

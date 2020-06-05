@@ -1,9 +1,11 @@
 import 'package:fish_redux/fish_redux.dart';
-import 'package:flutter/widgets.dart' hide Action;
+import 'package:flutter/material.dart' hide Action;
+import 'package:lmlive/beans/bean/program.dart';
 import 'package:lmlive/fish_redux/common_action.dart';
 import 'package:lmlive/net/error.dart';
 import 'package:lmlive/net/services/program_repository.dart';
 import 'package:lmlive/provider/view_state.dart';
+import 'package:lmlive/ui/pager/player/player_page.dart';
 import 'action.dart';
 import 'state.dart';
 
@@ -18,6 +20,7 @@ Effect<ProgramState> buildEffect() {
     Lifecycle.didUpdateWidget: _testdidUpdateWidget,
     Lifecycle.didChangeDependencies: _testdiddidChangeDependencies,
     Lifecycle.build: _testbuild,
+    ProgramAction.onItemClick: _onItemClick,
   });
 }
 
@@ -76,4 +79,10 @@ Future _testdiddidChangeDependencies(Action action, Context<ProgramState> ctx) a
 
 Future _testbuild(Action action, Context<ProgramState> ctx) async {
   debugPrint('_testbuild');
+}
+
+void _onItemClick(Action action, Context<ProgramState> ctx) {
+  var program = action.payload as ProgramListListBean;
+  debugPrint('_onItemClick program=${program.programId}');
+  Navigator.of(ctx.context).push(MaterialPageRoute(builder: (BuildContext buildCtx) => PlayerPage(programId: program.programId)));
 }

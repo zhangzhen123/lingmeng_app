@@ -4,7 +4,7 @@ import 'package:lmlive/ui/pager/program/components/program_video/component.dart'
 import 'package:lmlive/ui/pager/program/components/programcell_component/component.dart';
 
 import '../state.dart';
-import 'reducer.dart';
+//import 'reducer.dart';
 
 class ProgramAdapter extends SourceFlowAdapter<ProgramState> {
   ProgramAdapter()
@@ -14,6 +14,6 @@ class ProgramAdapter extends SourceFlowAdapter<ProgramState> {
             ProgramState.TYPE_BANNER: ProgramBannerComponent(),
             ProgramState.TYPE_VIDEO: ProgramVideoComponent()
           },
-          reducer: buildReducer(),
+//          reducer: buildReducer(),
         );
 }

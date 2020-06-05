@@ -1,7 +1,7 @@
 import 'package:fish_redux/fish_redux.dart';
 import 'package:lmlive/beans/bean/program.dart';
 
-enum ProgramAction { onFetch, onFetchMore, didLoad, didLoadMore, loadMoreError }
+enum ProgramAction { onFetch, onFetchMore, didLoad, didLoadMore, loadMoreError, onItemClick }
 
 class ProgramActionCreator {
   //代表第一次去取
@@ -25,5 +25,10 @@ class ProgramActionCreator {
   //下拉加载更多出错的通知
   static Action loadMoreErrorAction() {
     return Action(ProgramAction.loadMoreError);
+  }
+
+  //点击单个item
+  static Action onItemClickAction(ProgramListListBean program) {
+    return Action(ProgramAction.onItemClick, payload: program);
   }
 }
