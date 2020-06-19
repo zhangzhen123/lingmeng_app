@@ -147,21 +147,22 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               FlatButton(
                   onPressed: () {
-                    SessionUtils.instance.setSessionId('eb158f955c6a4c45849affa468c95edf');
+                    SessionUtils.instance.setSessionId('d4aa55a7d142405aa43de90243981cf3');
                     GlobalDataManager.currentProgramId = 17649;
                   },
                   color: LmColors.theme_color,
-                  child: Text("登录")),
+                  child: Text("设置session")),
               FlatButton(
                   onPressed: () {
 //                  showListDialog(context);
-                    showBottomDialog(context, (BuildContext context) {
-//                    return MoreActionDialog2();
-                      return MoreActionDialog1();
-                    });
+//                    showBottomDialog(context, (BuildContext context) {
+////                    return MoreActionDialog2();
+//                      return MoreActionDialog1();
+//                    });
+                    checkAppUpdate(context);
                   },
                   color: LmColors.theme_color,
-                  child: Text("测试更多菜单")),
+                  child: Text("请求更新")),
               FlatButton(
                   onPressed: () {
 //                  CommunityUtil.funToPager(CommunityUtil.METHOD_FINISH);
