@@ -46,7 +46,7 @@ import '../../Constant.dart';
 //}
 
 Future checkAppUpdate(BuildContext context) async {
-  if (!Platform.isAndroid) return;
+//  if (!Platform.isAndroid) return;
   FindNewsBean appUpdateInfo = await Provider.of<AppUpdateModel>(context, listen: false).checkUpdate();
 //  FindNewsBean appUpdateInfo = await AppUpdateModel().checkUpdate();
   //
